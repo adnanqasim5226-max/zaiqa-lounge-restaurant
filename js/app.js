@@ -4,9 +4,9 @@
 // ==============================================================================
 
 (function () {
-  // Application State
+  // Application State with localStorage persistence across pages
   const state = {
-    cart: [], // Array of { id, name, price, quantity, image }
+    cart: JSON.parse(localStorage.getItem("restaurant_cart") || "[]"),
     activeCategory: "All",
     isSubmitting: false
   };
@@ -217,6 +217,9 @@
   }
 
   function updateCartUI() {
+    // Persist to localStorage across all pages
+    localStorage.setItem("restaurant_cart", JSON.stringify(state.cart));
+
     const totalItems = state.cart.reduce((sum, i) => sum + i.quantity, 0);
     const { subtotal, deliveryFee, total } = calculateTotals();
 
@@ -367,6 +370,7 @@
 
       // Reset Form & Cart
       state.cart = [];
+      localStorage.removeItem("restaurant_cart");
       updateCartUI();
       renderMenu();
       if (elements.orderForm) elements.orderForm.reset();

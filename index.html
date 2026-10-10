@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zaiqa Lounge & Grill | Fine Dining & Fast Delivery</title>
+  <meta name="description" content="Experience royal flavors and sizzling BBQ delivered directly to your doorstep. Order online today!" />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Supabase JS Client v2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen flex flex-col antialiased selection:bg-orange-600 selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- TOP ANNOUNCEMENT BANNER -->
+  <!-- ========================================================================= -->
+  <div class="bg-gradient-to-r from-orange-700 via-amber-600 to-orange-700 text-white text-xs py-2 px-4 text-center font-medium shadow-sm flex items-center justify-center gap-3">
+    <span>🔥 Saylani Hackathon Special: Free Delivery on orders above Rs. 2,000!</span>
+    <span class="hidden md:inline text-amber-200">|</span>
+    <span class="hidden md:inline text-amber-100">Orders sent directly to Gmail & Supabase Live</span>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR -->
+  <!-- ========================================================================= -->
+  <header class="sticky top-0 z-40 glass-nav transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo & Name (Part A Requirement 1) -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-600/30 group-hover:scale-105 transition-transform">
+          <span class="text-2xl">🍽️</span>
+        </div>
+        <div>
+          <span class="text-2xl font-extrabold tracking-tight text-white font-serif block group-hover:text-orange-400 transition-colors">
+            Zaiqa Lounge
+          </span>
+          <span class="text-[11px] text-amber-400 font-semibold uppercase tracking-widest block -mt-1">
+            Fine Dining & Grill
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#home" class="hover:text-orange-400 transition-colors text-white font-semibold">Home</a>
+        <a href="#menu" class="hover:text-orange-400 transition-colors">Our Menu</a>
+        <a href="#order-section" class="hover:text-orange-400 transition-colors">Order Now</a>
+        <a href="admin.html" class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 hover:border-orange-500 hover:text-white transition-all flex items-center gap-1.5 text-xs text-amber-300 font-semibold shadow-sm">
+          <span>🛡️</span>
+          <span>Admin Portal</span>
+        </a>
+        <a href="social.html" class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 hover:border-pink-500 hover:text-white transition-all flex items-center gap-1.5 text-xs text-pink-300 font-semibold shadow-sm">
+          <span>📱</span>
+          <span>Social Media</span>
+        </a>
+      </nav>
+
+      <!-- Right Header Actions: Supabase Status & Cart Button -->
+      <div class="flex items-center gap-4">
+        
+        <!-- Supabase Status Badge / Button -->
+        <button 
+          id="supabase-status-badge" 
+          class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800/90 border border-slate-700 hover:border-slate-500 transition-all cursor-pointer"
+          title="Supabase Database Status"
+        >
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-emerald-400 text-xs font-semibold">Supabase Connected</span>
+        </button>
+
+        <!-- Cart Drawer Trigger Button -->
+        <a 
+          href="#order-section" 
+          class="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white font-bold text-sm shadow-lg shadow-orange-600/30 hover:scale-105 active:scale-95 transition-all"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+          </svg>
+          <span class="hidden sm:inline">My Order</span>
+          <span class="cart-count-badge hidden px-2 py-0.5 text-xs font-extrabold rounded-full bg-white text-orange-600 shadow-md">
+            0
+          </span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- HERO SECTION (Part A Requirement 1: Restaurant Name & Big Top Section) -->
+  <!-- ========================================================================= -->
+  <section id="home" class="relative pt-12 pb-24 overflow-hidden border-b border-slate-800/60">
+    <!-- Glow Backdrop Effects -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-orange-600/15 rounded-full blur-[130px] pointer-events-none"></div>
+    <div class="absolute top-1/3 left-1/4 w-[350px] h-[350px] bg-amber-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Hero Text & CTAs (7 Cols) -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800/80 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-wider shadow-inner">
+            <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
+            Experience Culinary Excellence • Karachi
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white font-serif leading-[1.15]">
+            Savor the True Flavors of <br class="hidden sm:inline" />
+            <span class="bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 bg-clip-text text-transparent">
+              Royal Gourmet Dining
+            </span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+            Welcome to <strong class="text-white">Zaiqa Lounge & Grill</strong>. From slow-cooked Dum Biryani and charcoal-smoked BBQ to creamy pastas and handcrafted desserts, every dish is prepared fresh with royal spices and delivered sizzling to your door.
+          </p>
+
+          <!-- Badges Bar -->
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/60 border border-slate-700/60 text-xs text-slate-200">
+              <span class="text-emerald-400 text-base">✓</span>
+              <span>100% Halal Ingredients</span>
+            </div>
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/60 border border-slate-700/60 text-xs text-slate-200">
+              <span class="text-amber-400 text-base">⚡</span>
+              <span>Fast 35-45 Min Delivery</span>
+            </div>
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/60 border border-slate-700/60 text-xs text-slate-200">
+              <span class="text-orange-400 text-base">📧</span>
+              <span>Live Gmail & Supabase Order Sync</span>
+            </div>
+          </div>
+
+          <!-- Hero Buttons -->
+          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+            <a 
+              href="#menu" 
+              class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-bold text-base shadow-xl shadow-orange-600/30 text-center transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+            >
+              <span>Explore Menu</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </a>
+
+            <a 
+              href="#order-section" 
+              class="w-full sm:w-auto px-8 py-4 rounded-xl bg-slate-800/90 hover:bg-slate-700/90 border border-slate-700 hover:border-slate-500 text-white font-bold text-base text-center transition-all flex items-center justify-center gap-2 shadow-sm"
+            >
+              <span>Place Quick Order</span>
+              <span class="text-orange-400">⚡</span>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Hero Graphic & Floating Highlights (5 Cols) -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative mx-auto max-w-md lg:max-w-none">
+            <!-- Main Hero Image Frame -->
+            <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-slate-700/80 group">
+              <img 
+                src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1000&q=80" 
+                alt="Zaiqa Lounge Signature BBQ & Karahi" 
+                class="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+              
+              <div class="absolute bottom-6 left-6 right-6 p-4 rounded-2xl glass-panel border border-white/10">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h4 class="text-white font-bold text-lg font-serif">Mutton Shinwari & Biryani</h4>
+                    <p class="text-xs text-slate-300">Fresh Charcoal Grilled Daily</p>
+                  </div>
+                  <span class="text-xl font-extrabold text-orange-400">Rs. 1,850</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Rating Card -->
+            <div class="absolute -top-6 -left-6 hidden sm:flex items-center gap-3 p-3.5 rounded-2xl glass-panel shadow-xl border border-white/10">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                ★
+              </div>
+              <div>
+                <div class="text-sm font-bold text-white">4.9 / 5.0 Rating</div>
+                <div class="text-[11px] text-slate-400">Over 3,500 Happy Foodies</div>
+              </div>
+            </div>
+
+            <!-- Floating Live Delivery Card -->
+            <div class="absolute -bottom-6 -right-6 hidden sm:flex items-center gap-3 p-3.5 rounded-2xl glass-panel shadow-xl border border-white/10">
+              <div class="w-10 h-10 rounded-xl bg-orange-600/20 text-orange-400 flex items-center justify-center text-xl">
+                🛵
+              </div>
+              <div>
+                <div class="text-sm font-bold text-white">Live Kitchen Active</div>
+                <div class="text-[11px] text-emerald-400">Delivery in 35 mins</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- MENU SECTION (Part A Requirement 1: Show at least 6 dishes, picture, name, price) -->
+  <!-- ========================================================================= -->
+  <section id="menu" class="py-20 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+        <span class="text-orange-500 font-bold text-xs uppercase tracking-widest block">
+          Fresh From Our Kitchen
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-serif tracking-tight">
+          Explore Our Delicious Menu
+        </h2>
+        <p class="text-slate-400 text-sm sm:text-base">
+          Handcrafted with authentic spices, premium meats, and secret heritage recipes. Click <strong>Add to Order</strong> to add dishes to your cart.
+        </p>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div id="category-filters" class="flex items-center justify-center gap-2 overflow-x-auto pb-4 mb-10 no-scrollbar">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+
+      <!-- Dishes Grid (Displays 8 delicious dishes with image, name, price, description) -->
+      <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <!-- Dynamically rendered via app.js -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- ORDER FORM & CART SECTION (Part A Requirement 2, 3 & 4) -->
+  <!-- ========================================================================= -->
+  <section id="order-section" class="py-20 bg-slate-900/40 border-t border-slate-800/80 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+        <span class="text-orange-500 font-bold text-xs uppercase tracking-widest block">
+          Instant Checkout
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-serif tracking-tight">
+          Complete Your Order
+        </h2>
+        <p class="text-slate-400 text-sm sm:text-base">
+          Review your selected dishes, provide delivery details, and click <strong>Place Order</strong>. Your order will be immediately saved in <strong>Supabase</strong> and sent directly to <strong>adnanqasim5226@gmail.com</strong>!
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left Column: Cart Review & Selected Dishes (5 Cols) -->
+        <div class="lg:col-span-5 glass-panel rounded-3xl p-6 sm:p-8 space-y-6">
+          <div class="flex items-center justify-between border-b border-slate-700/60 pb-4">
+            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+              <span>🛒</span>
+              <span>Your Selected Dishes</span>
+            </h3>
+            <span class="cart-count-badge px-3 py-1 rounded-full text-xs font-extrabold bg-orange-600 text-white">
+              0 Items
+            </span>
+          </div>
+
+          <!-- Empty Cart Notice -->
+          <div id="cart-empty-notice" class="py-12 text-center space-y-4">
+            <div class="w-16 h-16 mx-auto rounded-full bg-slate-800 flex items-center justify-center text-3xl text-slate-500">
+              🍽️
+            </div>
+            <div>
+              <p class="text-white font-bold">Your cart is currently empty</p>
+              <p class="text-xs text-slate-400 mt-1">Select dishes from the menu above to start your order.</p>
+            </div>
+            <a href="#menu" class="inline-block px-5 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition-all shadow-md">
+              Browse Menu Now
+            </a>
+          </div>
+
+          <!-- Filled Cart Items List -->
+          <div id="cart-filled-container" class="space-y-4 hidden">
+            <!-- List of items -->
+            <div id="cart-items" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+              <!-- Dynamically populated -->
+            </div>
+
+            <!-- Price Breakdown -->
+            <div class="bg-slate-900/80 rounded-2xl p-4 border border-slate-800 space-y-2.5">
+              <div class="flex justify-between text-sm text-slate-400">
+                <span>Subtotal</span>
+                <span id="cart-subtotal" class="font-semibold text-slate-200">Rs. 0</span>
+              </div>
+              <div class="flex justify-between text-sm text-slate-400">
+                <span>Delivery Fee <span class="text-xs text-slate-500">(Free above Rs. 2,000)</span></span>
+                <span id="cart-delivery-fee" class="font-semibold text-slate-200">Rs. 150</span>
+              </div>
+              <div class="border-t border-slate-800 pt-3 flex justify-between items-center text-lg font-bold text-white">
+                <span>Grand Total</span>
+                <span id="cart-total" class="text-2xl font-extrabold text-orange-400">Rs. 0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Customer Details & Place Order Form (7 Cols) -->
+        <div class="lg:col-span-7 glass-panel rounded-3xl p-6 sm:p-8 space-y-6">
+          <div class="border-b border-slate-700/60 pb-4">
+            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+              <span>📍</span>
+              <span>Customer & Delivery Details</span>
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">
+              All marked fields are strictly required according to Hackathon Part A rules.
+            </p>
+          </div>
+
+          <form id="order-form" class="space-y-5" novalidate>
+            <!-- Customer Name -->
+            <div>
+              <label for="customer-name" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                Customer Full Name <span class="text-red-400">* (required)</span>
+              </label>
+              <div class="relative">
+                <input 
+                  type="text" 
+                  id="customer-name" 
+                  name="customer_name" 
+                  required 
+                  minlength="2"
+                  placeholder="e.g. Adnan Qasim"
+                  class="w-full px-4 py-3.5 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 text-white placeholder-slate-500 text-sm transition-all outline-none"
+                />
+              </div>
+            </div>
+
+            <!-- Customer Phone -->
+            <div>
+              <label for="customer-phone" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                Contact Phone Number <span class="text-red-400">* (required)</span>
+              </label>
+              <div class="relative">
+                <input 
+                  type="tel" 
+                  id="customer-phone" 
+                  name="customer_phone" 
+                  required 
+                  placeholder="e.g. 0300-1234567 or +923001234567"
+                  class="w-full px-4 py-3.5 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 text-white placeholder-slate-500 text-sm transition-all outline-none"
+                />
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1">Our rider will call on this number upon arriving at your address.</p>
+            </div>
+
+            <!-- Customer Address -->
+            <div>
+              <label for="customer-address" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                Complete Delivery Address <span class="text-red-400">* (required)</span>
+              </label>
+              <div class="relative">
+                <textarea 
+                  id="customer-address" 
+                  name="customer_address" 
+                  rows="3" 
+                  required 
+                  placeholder="e.g. House No. 45, Street 8, Near ASF Campus, Clifton Block 5, Karachi"
+                  class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 text-white placeholder-slate-500 text-sm transition-all outline-none"
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- Special Instructions (Optional) -->
+            <div>
+              <label for="special-instructions" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                Special Cooking / Delivery Instructions <span class="text-slate-500 text-[11px] font-normal">(optional)</span>
+              </label>
+              <input 
+                type="text" 
+                id="special-instructions" 
+                name="special_instructions" 
+                placeholder="e.g. Less spicy, extra raita, call upon arrival"
+                class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 text-white placeholder-slate-500 text-sm transition-all outline-none"
+              />
+            </div>
+
+            <!-- Target Notification Preview -->
+            <div class="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800 text-xs text-slate-300 space-y-1">
+              <div class="flex items-center gap-2 text-orange-400 font-semibold">
+                <span>⚡ Automated Integrations:</span>
+              </div>
+              <div class="text-[12px] text-slate-400">
+                1. Full order dispatches to your Gmail: <span class="text-amber-300 font-mono font-bold">adnanqasim5226@gmail.com</span><br/>
+                2. Order record is saved in Supabase table <code class="text-blue-300">orders</code> with initial status <span class="text-amber-400 font-bold">Pending</span>.
+              </div>
+            </div>
+
+            <!-- Submit Button (Part A Requirement 2: Clicks Place order) -->
+            <button 
+              type="submit" 
+              id="place-order-btn" 
+              class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-orange-600 via-amber-600 to-orange-600 hover:from-orange-500 hover:via-amber-500 hover:to-orange-500 text-white font-extrabold text-lg shadow-xl shadow-orange-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span>🚀</span>
+              <span>Place Order Now</span>
+            </button>
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- ORDER SUCCESS / RECEIPT MODAL -->
+  <!-- ========================================================================= -->
+  <div id="order-success-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="glass-panel bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+      
+      <!-- Close button -->
+      <button id="close-order-modal" class="absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">
+        ✕
+      </button>
+
+      <!-- Success Header -->
+      <div class="text-center space-y-2">
+        <div class="w-16 h-16 mx-auto rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl border border-emerald-500/40">
+          ✓
+        </div>
+        <h3 class="text-2xl font-extrabold text-white font-serif">Order Placed Successfully!</h3>
+        <p class="text-xs text-slate-400">
+          Thank you for choosing Zaiqa Lounge & Grill.
+        </p>
+      </div>
+
+      <!-- Live Sync Status Badges -->
+      <div class="space-y-2">
+        <!-- Gmail Status -->
+        <div id="modal-email-status"></div>
+        <!-- Supabase Status -->
+        <div id="modal-supabase-status"></div>
+      </div>
+
+      <!-- Printable / Viewable Receipt Details -->
+      <div id="modal-receipt-content">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-3 pt-2">
+        <button 
+          id="copy-receipt-btn" 
+          class="flex-1 py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-xs font-bold transition-all flex items-center justify-center gap-2"
+        >
+          📋 Copy Details
+        </button>
+        <a 
+          id="modal-mailto-btn" 
+          target="_blank" 
+          class="flex-1 py-3 px-4 rounded-xl bg-orange-600/20 hover:bg-orange-600/30 border border-orange-500/50 text-orange-300 text-xs font-bold transition-all flex items-center justify-center gap-2 text-center"
+        >
+          📧 Open in Gmail
+        </a>
+        <a 
+          href="admin.html" 
+          class="flex-1 py-3 px-4 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 text-center"
+        >
+          🛡️ View in Admin
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- SUPABASE CONFIGURATION MODAL -->
+  <!-- ========================================================================= -->
+  <div id="supabase-config-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="glass-panel bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl relative">
+      
+      <button id="close-cfg-modal" class="absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">
+        ✕
+      </button>
+
+      <div class="space-y-1">
+        <h3 class="text-xl font-bold text-white flex items-center gap-2">
+          <span>⚡</span>
+          <span>Supabase Configuration</span>
+        </h3>
+        <p class="text-xs text-slate-400">
+          Your project keys are pre-configured. You can inspect or update them anytime.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Supabase Project URL</label>
+          <input 
+            type="text" 
+            id="cfg-supabase-url" 
+            class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs font-mono outline-none focus:border-orange-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Supabase Anon Public Key</label>
+          <textarea 
+            id="cfg-supabase-key" 
+            rows="3" 
+            class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs font-mono outline-none focus:border-orange-500"
+          ></textarea>
+        </div>
+
+        <div class="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs">
+          <strong>Need to create the 'orders' table?</strong><br/>
+          Run the provided script <code class="text-white">supabase_schema.sql</code> in your Supabase SQL Editor.
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-2">
+        <button id="save-cfg-btn" class="px-6 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition-all shadow-md">
+          Save & Verify Connection
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER -->
+  <!-- ========================================================================= -->
+  <footer class="bg-slate-950 border-t border-slate-800/80 py-12 mt-auto text-slate-400 text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">🍽️</span>
+            <span class="text-lg font-bold text-white font-serif">Zaiqa Lounge</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Authentic culinary perfection delivered with speed and care. Serving premium Biryanis, Karahis, and gourmet BBQ across Karachi.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider">Quick Links</h4>
+          <ul class="text-xs space-y-1.5">
+            <li><a href="#home" class="hover:text-orange-400">Home</a></li>
+            <li><a href="#menu" class="hover:text-orange-400">Menu (8 Dishes)</a></li>
+            <li><a href="#order-section" class="hover:text-orange-400">Order Form</a></li>
+            <li><a href="admin.html" class="hover:text-orange-400 text-amber-300 font-semibold">Admin Dashboard (Part B)</a></li>
+            <li><a href="social.html" class="hover:text-orange-400 text-pink-300 font-semibold">Social Media Scheduler (Part B)</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider">Hackathon Specs</h4>
+          <ul class="text-xs space-y-1.5 text-slate-400">
+            <li>Gmail Target: <span class="text-slate-200">adnanqasim5226@gmail.com</span></li>
+            <li>Supabase Table: <span class="text-blue-300">orders</span></li>
+            <li>Initial Status: <span class="text-amber-400">Pending</span></li>
+            <li>Status Flow: <span class="text-slate-300">Pending → Preparing → Delivered</span></li>
+          </ul>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider">SMIT ASF Campus</h4>
+          <p class="text-xs text-slate-400">
+            Modern Web & App Development with AI<br/>
+            Saturday & Sunday Hackathon<br/>
+            Total Marks: 100
+          </p>
+          <div class="pt-2">
+            <span class="px-2.5 py-1 rounded bg-slate-800 text-[11px] text-emerald-400 font-semibold">
+              ✓ Part A Ready (50/50 Marks)
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        <p>© 2026 Zaiqa Lounge & Grill. Built for Saylani Mass IT Training Hackathon.</p>
+        <p>Live on GitHub Pages / Vercel</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/supabaseClient.js"></script>
+  <script src="js/emailService.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

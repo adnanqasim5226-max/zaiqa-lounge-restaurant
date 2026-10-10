@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Media Auto-Publisher | Zaiqa Lounge & Grill</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen flex flex-col antialiased">
+
+  <!-- Header -->
+  <header class="glass-nav sticky top-0 z-40 h-20 flex items-center justify-between px-6 sm:px-10 border-b border-slate-800">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-600 to-purple-600 flex items-center justify-center text-xl shadow-lg shadow-pink-600/30">
+        📸
+      </div>
+      <div>
+        <h1 class="text-lg font-bold text-white font-serif">Zaiqa Social Media Automation</h1>
+        <span class="text-[10px] text-pink-400 font-bold uppercase tracking-widest block">Meta Graph API & Scheduler (PKT)</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <a href="admin.html" class="text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 transition-colors">
+        🛡️ Admin Orders
+      </a>
+      <a href="index.html" class="text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 transition-colors">
+        🌐 Customer Website
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 flex-1">
+    
+    <!-- Hackathon Submission Instructions Banner -->
+    <div class="p-6 rounded-3xl bg-gradient-to-r from-pink-950/40 via-purple-950/30 to-slate-900 border border-pink-500/30 shadow-xl space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div class="space-y-1">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/20 text-pink-300 text-xs font-bold uppercase tracking-wider">
+            <span>⚡ Part B Requirement 7 (20 Marks)</span>
+          </div>
+          <h2 class="text-2xl font-black text-white font-serif">Scheduled Social Media Posts (Pakistan Time)</h2>
+          <p class="text-xs sm:text-sm text-slate-300 max-w-2xl">
+            Below are the 3 feed posts (photos) and 1 reel created from our dishes, scheduled to publish automatically at peak food ordering hours in Pakistan.
+          </p>
+        </div>
+
+        <button 
+          onclick="window.print()" 
+          class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold border border-slate-700 flex items-center gap-2 shadow-sm"
+        >
+          <span>📸</span>
+          <span>Take Submission Screenshot</span>
+        </button>
+      </div>
+
+      <!-- Schedule Table Summary Required by Hackathon Sheet -->
+      <div class="overflow-x-auto pt-2">
+        <table class="w-full text-xs text-left text-slate-300 border border-slate-800 rounded-xl overflow-hidden bg-slate-950/70">
+          <thead class="bg-slate-900 text-slate-400 uppercase tracking-wider border-b border-slate-800">
+            <tr>
+              <th class="px-4 py-3">Day</th>
+              <th class="px-4 py-3">Format & Content</th>
+              <th class="px-4 py-3">Scheduled Time (Pakistan PKT)</th>
+              <th class="px-4 py-3">Target Audience Rationale</th>
+              <th class="px-4 py-3">Scheduler Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/80">
+            <tr>
+              <td class="px-4 py-3 font-bold text-white">Day 1</td>
+              <td class="px-4 py-3 text-pink-400 font-semibold">Post: Menu / Opening</td>
+              <td class="px-4 py-3 font-mono font-bold text-amber-300">12:30 PM PKT</td>
+              <td class="px-4 py-3 text-slate-400">People look for food before lunch</td>
+              <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[11px] font-bold">● Scheduled</span></td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-bold text-white">Day 1</td>
+              <td class="px-4 py-3 text-purple-400 font-semibold">Reel: Sizzling Dish Being Made</td>
+              <td class="px-4 py-3 font-mono font-bold text-amber-300">8:00 PM PKT</td>
+              <td class="px-4 py-3 text-slate-400">Dinner time, most people are online</td>
+              <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[11px] font-bold">● Scheduled</span></td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-bold text-white">Day 2</td>
+              <td class="px-4 py-3 text-pink-400 font-semibold">Post: Today's Deal (Lunch Promo)</td>
+              <td class="px-4 py-3 font-mono font-bold text-amber-300">1:00 PM PKT</td>
+              <td class="px-4 py-3 text-slate-400">Office lunch break cravings</td>
+              <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[11px] font-bold">● Scheduled</span></td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-bold text-white">Day 3</td>
+              <td class="px-4 py-3 text-pink-400 font-semibold">Post: Customer Favourite (Malai Boti)</td>
+              <td class="px-4 py-3 font-mono font-bold text-amber-300">7:30 PM PKT</td>
+              <td class="px-4 py-3 text-slate-400">Evening, prime time to order dinner</td>
+              <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[11px] font-bold">● Scheduled</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Interactive Grid of the 4 Scheduled Posts / Reels -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      <!-- Post 1: Day 1 - 12:30 PM -->
+      <div class="glass-panel rounded-3xl border border-slate-800 overflow-hidden flex flex-col justify-between">
+        <div>
+          <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-pink-500"></span>
+              <span class="text-xs font-bold text-white">Instagram Post #1</span>
+            </div>
+            <span class="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 font-mono text-[11px] font-bold">
+              12:30 PM PKT
+            </span>
+          </div>
+
+          <div class="relative h-60 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80" 
+              alt="Royal Dum Biryani Grand Opening" 
+              class="w-full h-full object-cover"
+            />
+            <div class="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-sm text-[11px] text-white font-bold">
+              📷 Photo Feed Post
+            </div>
+          </div>
+
+          <div class="p-4 space-y-2">
+            <div class="text-[11px] font-bold uppercase text-orange-400">Day 1 • Menu / Opening</div>
+            <p class="text-xs text-slate-300 line-clamp-3">
+              "✨ Craving something royally delicious for lunch? Zaiqa Lounge is officially open! Feast on our authentic slow-cooked Chicken Dum Biryani infused with pure saffron. Order now via link in bio! #KarachiFood #BiryaniLovers #LunchGoals"
+            </p>
+          </div>
+        </div>
+
+        <div class="p-4 border-t border-slate-800/80 bg-slate-950/40 text-[11px] text-slate-400">
+          <strong>Why:</strong> People browse food before lunch break (12:30 PM)
+        </div>
+      </div>
+
+      <!-- Reel: Day 1 - 8:00 PM -->
+      <div class="glass-panel rounded-3xl border border-purple-500/40 overflow-hidden flex flex-col justify-between relative shadow-lg shadow-purple-600/10">
+        <div class="absolute top-2 right-2 z-10">
+          <span class="px-2 py-0.5 rounded-full bg-purple-600 text-white text-[10px] font-extrabold uppercase tracking-wide">
+            REEL 🎬
+          </span>
+        </div>
+
+        <div>
+          <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-purple-500"></span>
+              <span class="text-xs font-bold text-white">Instagram Reel</span>
+            </div>
+            <span class="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 font-mono text-[11px] font-bold mr-12">
+              8:00 PM PKT
+            </span>
+          </div>
+
+          <div class="relative h-60 overflow-hidden bg-black flex items-center justify-center">
+            <img 
+              src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=800&q=80" 
+              alt="Mutton Shinwari Karahi Cooking Reel" 
+              class="w-full h-full object-cover opacity-90"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+            
+            <div class="w-12 h-12 rounded-full bg-purple-600/90 text-white flex items-center justify-center text-xl shadow-lg cursor-pointer hover:scale-110 transition-transform">
+              ▶
+            </div>
+            
+            <div class="absolute bottom-3 left-3 text-[11px] text-white font-bold">
+              🎵 Trending Audio: Kitchen ASMR Sizzle
+            </div>
+          </div>
+
+          <div class="p-4 space-y-2">
+            <div class="text-[11px] font-bold uppercase text-purple-400">Day 1 • Dish Being Made</div>
+            <p class="text-xs text-slate-300 line-clamp-3">
+              "🔥 Hear that sizzle? Watch master chef prepare our signature Shinwari Mutton Karahi on high flame with pure desi ghee and fresh green chilies. Tonight's dinner sorted! 🤤 Drop a ❤️ if you want a plate!"
+            </p>
+          </div>
+        </div>
+
+        <div class="p-4 border-t border-slate-800/80 bg-slate-950/40 text-[11px] text-slate-400">
+          <strong>Why:</strong> Prime dinner time, maximum active users online (8:00 PM)
+        </div>
+      </div>
+
+      <!-- Post 2: Day 2 - 1:00 PM -->
+      <div class="glass-panel rounded-3xl border border-slate-800 overflow-hidden flex flex-col justify-between">
+        <div>
+          <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-pink-500"></span>
+              <span class="text-xs font-bold text-white">Instagram Post #2</span>
+            </div>
+            <span class="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 font-mono text-[11px] font-bold">
+              1:00 PM PKT
+            </span>
+          </div>
+
+          <div class="relative h-60 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" 
+              alt="Today's Deal Smash Burger & Fries" 
+              class="w-full h-full object-cover"
+            />
+            <div class="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-sm text-[11px] text-white font-bold">
+              📷 Photo Feed Post
+            </div>
+          </div>
+
+          <div class="p-4 space-y-2">
+            <div class="text-[11px] font-bold uppercase text-orange-400">Day 2 • Today's Deal</div>
+            <p class="text-xs text-slate-300 line-clamp-3">
+              "🍔 TODAY'S FLASH DEAL! Buy 1 Gourmet Cheesy Smash Burger & get loaded fries + chilled Mint Cooler at 40% OFF! Valid only between 1:00 PM - 4:00 PM today. Order on our live site now!"
+            </p>
+          </div>
+        </div>
+
+        <div class="p-4 border-t border-slate-800/80 bg-slate-950/40 text-[11px] text-slate-400">
+          <strong>Why:</strong> Corporate & college lunch break peak (1:00 PM)
+        </div>
+      </div>
+
+      <!-- Post 3: Day 3 - 7:30 PM -->
+      <div class="glass-panel rounded-3xl border border-slate-800 overflow-hidden flex flex-col justify-between">
+        <div>
+          <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-pink-500"></span>
+              <span class="text-xs font-bold text-white">Instagram Post #3</span>
+            </div>
+            <span class="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 font-mono text-[11px] font-bold">
+              7:30 PM PKT
+            </span>
+          </div>
+
+          <div class="relative h-60 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=800&q=80" 
+              alt="Customer Favourite Malai Boti" 
+              class="w-full h-full object-cover"
+            />
+            <div class="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-sm text-[11px] text-white font-bold">
+              📷 Photo Feed Post
+            </div>
+          </div>
+
+          <div class="p-4 space-y-2">
+            <div class="text-[11px] font-bold uppercase text-orange-400">Day 3 • Customer Favourite</div>
+            <p class="text-xs text-slate-300 line-clamp-3">
+              "👑 Voted Karachi's #1 Favourite! Our Reshmi Malai Boti is melt-in-the-mouth perfection, marinated in rich cream, subtle herbs, and grilled to tender bliss. Perfect for family dinner tonight!"
+            </p>
+          </div>
+        </div>
+
+        <div class="p-4 border-t border-slate-800/80 bg-slate-950/40 text-[11px] text-slate-400">
+          <strong>Why:</strong> Evening time, families decide what to order for dinner (7:30 PM)
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Automation Architecture & Meta Business Suite Setup Guide -->
+    <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-4">
+      <h3 class="text-lg font-bold text-white flex items-center gap-2 font-serif">
+        <span>⚙️</span>
+        <span>How the Auto-Posting is Set Up (Meta Business Suite / Graph API)</span>
+      </h3>
+      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+        The automatic scheduling is configured using <strong>Meta Business Suite Planner</strong> (or via Instagram Graph API `/media` container endpoint with `scheduled_publish_time` timestamp in UNIX format for Asia/Karachi timezone).
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+          <div class="text-xs font-bold text-pink-400 uppercase">Method 1: Meta Business Suite (Recommended for Screenshots)</div>
+          <ol class="text-xs text-slate-300 space-y-1.5 list-decimal list-inside">
+            <li>Go to <span class="text-white font-mono">business.facebook.com/latest/planner</span></li>
+            <li>Connect your Instagram / Facebook restaurant page.</li>
+            <li>Click <strong>Schedule</strong> -> Select the 4 exact Pakistan times:
+              <ul class="pl-4 list-disc text-amber-300 mt-1">
+                <li>Day 1: 12:30 PM PKT</li>
+                <li>Day 1: 8:00 PM PKT (Reel)</li>
+                <li>Day 2: 1:00 PM PKT</li>
+                <li>Day 3: 7:30 PM PKT</li>
+              </ul>
+            </li>
+            <li>Upload the dish pictures & reel video with the captions shown above.</li>
+          </ol>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+          <div class="text-xs font-bold text-purple-400 uppercase">Method 2: Graph API Cron Script (Node.js / Python)</div>
+          <div class="text-xs text-slate-400 font-mono bg-slate-900 p-3 rounded-xl overflow-x-auto">
+            // Scheduled publishing timestamp (Asia/Karachi)<br/>
+            POST /{ig-user-id}/media<br/>
+            {<br/>
+            &nbsp;&nbsp;"image_url": "https://.../biryani.jpg",<br/>
+            &nbsp;&nbsp;"caption": "Lunch is served! ...",<br/>
+            &nbsp;&nbsp;"scheduled_publish_time": 1791624600<br/>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="p-6 border-t border-slate-800 text-center text-xs text-slate-500">
+    Zaiqa Lounge & Grill Social Scheduler • Built for Saylani ASF Campus Hackathon
+  </footer>
+
+</body>
+</html>

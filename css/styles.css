@@ -1,0 +1,139 @@
+/* ==============================================================================
+   ZAIQA LOUNGE & GRILL - LUXURY RESTAURANT STYLESHEET
+   Saylani SMIT Hackathon
+   ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap');
+
+:root {
+  --primary: #ea580c; /* Warm Orange / Fire */
+  --primary-hover: #c2410c;
+  --secondary: #eab308; /* Saffron Gold */
+  --dark-bg: #0f172a; /* Deep Slate */
+  --card-bg: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent-gold: #f59e0b;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #0b0f19;
+  color: #f8fafc;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.font-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Glassmorphism effects */
+.glass-panel {
+  background: rgba(30, 41, 59, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-nav {
+  background: rgba(11, 15, 25, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0f19;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ea580c;
+}
+
+/* Luxury Card Hover */
+.dish-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+.dish-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(234, 88, 12, 0.4);
+  box-shadow: 0 20px 30px -10px rgba(234, 88, 12, 0.15);
+}
+
+/* Status Badges */
+.badge-pending {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-preparing {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.badge-delivered {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* Form Styles & Modern Validation (:user-invalid) */
+input:user-invalid,
+textarea:user-invalid {
+  border-color: #ef4444 !important;
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+input:user-valid,
+textarea:user-valid {
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+/* Pulse Animation for Live Order indicators */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.03); }
+}
+
+.pulse-badge {
+  animation: pulse-subtle 2s infinite ease-in-out;
+}
+
+/* Floating Cart Button for Mobile */
+.mobile-cart-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 40;
+  box-shadow: 0 10px 25px -5px rgba(234, 88, 12, 0.5);
+}
+
+/* Print receipt styling */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-receipt, #printable-receipt * {
+    visibility: visible;
+  }
+  #printable-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    color: #000;
+    background: #fff;
+  }
+}

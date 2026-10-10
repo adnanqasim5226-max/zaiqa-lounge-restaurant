@@ -1,0 +1,20 @@
+{
+  "name": "saylani-restaurant-hackathon",
+  "version": "1.0.0",
+  "description": "Saylani Mass IT Training (SMIT) Restaurant Website Hackathon with Gmail and Supabase Integration",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "saylani",
+    "hackathon",
+    "restaurant",
+    "supabase",
+    "gmail",
+    "tailwind"
+  ],
+  "author": "Adnan Qasim",
+  "license": "MIT"
+}

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Zaiqa Lounge & Grill</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Supabase JS Client v2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen antialiased flex flex-col">
+
+  <!-- ========================================================================= -->
+  <!-- 1. ADMIN LOGIN MODAL / VIEW (Part B Requirement 5) -->
+  <!-- ========================================================================= -->
+  <div id="admin-login-view" class="fixed inset-0 z-50 bg-[#0b0f19] flex items-center justify-center p-4">
+    <div class="glass-panel bg-slate-900 border border-slate-700/80 rounded-3xl max-w-md w-full p-8 space-y-6 shadow-2xl relative">
+      
+      <div class="text-center space-y-2">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center text-3xl shadow-lg shadow-orange-600/30">
+          🛡️
+        </div>
+        <h2 class="text-2xl font-extrabold text-white font-serif">Admin Portal Login</h2>
+        <p class="text-xs text-slate-400">
+          Part B Requirement: Only the admin can access the orders dashboard.
+        </p>
+      </div>
+
+      <!-- Test Credentials Notice -->
+      <div class="p-3.5 rounded-xl bg-orange-600/10 border border-orange-500/30 text-xs text-orange-300 space-y-1">
+        <div class="font-bold">🔑 Test Credentials:</div>
+        <div class="font-mono text-slate-300">Email: <span class="text-white">admin@zaiqa.com</span></div>
+        <div class="font-mono text-slate-300">Password: <span class="text-white">admin123</span></div>
+      </div>
+
+      <form id="admin-login-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Admin Email</label>
+          <input 
+            type="email" 
+            id="admin-email" 
+            required 
+            value="admin@zaiqa.com"
+            class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm outline-none focus:border-orange-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Password</label>
+          <input 
+            type="password" 
+            id="admin-password" 
+            required 
+            value="admin123"
+            class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm outline-none focus:border-orange-500"
+          />
+        </div>
+
+        <button 
+          type="submit" 
+          class="w-full py-3.5 px-4 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-bold text-sm shadow-lg shadow-orange-600/30 transition-all hover:scale-[1.02] active:scale-95"
+        >
+          Sign In to Dashboard
+        </button>
+      </form>
+
+      <div class="text-center pt-2">
+        <a href="index.html" class="text-xs text-slate-400 hover:text-white transition-colors">
+          ← Back to Customer Website
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. ADMIN DASHBOARD LAYOUT (Part B Requirement 5 & 6) -->
+  <!-- Sidebar on left (Orders, Logout), Orders on right (customer, dishes, total, time, status) -->
+  <!-- ========================================================================= -->
+  <div id="admin-dashboard-view" class="hidden min-h-screen flex flex-col md:flex-row">
+    
+    <!-- SIDEBAR (LEFT) -->
+    <aside class="w-full md:w-64 bg-slate-950 border-r border-slate-800/80 p-6 flex flex-col justify-between flex-shrink-0">
+      
+      <div class="space-y-8">
+        <!-- Brand -->
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-orange-600 flex items-center justify-center text-xl shadow-md">
+            🍽️
+          </div>
+          <div>
+            <h1 class="font-extrabold text-white text-lg font-serif">Zaiqa Lounge</h1>
+            <span class="text-[10px] text-orange-400 font-bold uppercase tracking-widest block">Admin Console</span>
+          </div>
+        </a>
+
+        <!-- Sidebar Navigation -->
+        <nav class="space-y-2">
+          <button 
+            id="nav-orders-btn" 
+            class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-orange-600 text-white font-bold text-sm shadow-md"
+          >
+            <div class="flex items-center gap-3">
+              <span>📋</span>
+              <span>Orders</span>
+            </div>
+            <span id="sidebar-order-count" class="px-2 py-0.5 rounded-full bg-white/20 text-xs font-mono">0</span>
+          </button>
+
+          <a 
+            href="social.html" 
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 font-medium text-sm transition-colors"
+          >
+            <span>📱</span>
+            <span>Social Media</span>
+          </a>
+
+          <a 
+            href="index.html" 
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 font-medium text-sm transition-colors"
+          >
+            <span>🌐</span>
+            <span>Customer View</span>
+          </a>
+        </nav>
+
+        <!-- Supabase Quick Info -->
+        <div class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 text-xs space-y-1.5">
+          <div class="text-[10px] font-bold uppercase text-slate-400">Database</div>
+          <div class="flex items-center gap-2">
+            <span id="admin-supabase-dot" class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span class="text-white font-mono text-[11px] truncate">Supabase Cloud</span>
+          </div>
+          <div class="text-[10px] text-slate-500">Table: <code>orders</code></div>
+        </div>
+      </div>
+
+      <!-- Logout Button (Part B Requirement 5) -->
+      <div class="pt-6 border-t border-slate-800/80">
+        <button 
+          id="admin-logout-btn" 
+          class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-900 hover:bg-red-950/40 text-slate-400 hover:text-red-400 border border-slate-800 hover:border-red-900 text-sm font-semibold transition-all"
+        >
+          <span>🚪</span>
+          <span>Logout</span>
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT (RIGHT) -->
+    <main class="flex-1 flex flex-col overflow-y-auto">
+      
+      <!-- Top Bar -->
+      <header class="h-20 border-b border-slate-800/80 px-6 sm:px-8 flex items-center justify-between bg-slate-950/40">
+        <div>
+          <h2 class="text-xl font-bold text-white font-serif">Orders Management</h2>
+          <p class="text-xs text-slate-400">Real-time orders synced with Supabase & Gmail</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button 
+            id="refresh-orders-btn" 
+            class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold border border-slate-700 transition-all"
+            title="Refresh Orders"
+          >
+            <span>🔄</span>
+            <span>Refresh</span>
+          </button>
+          
+          <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-xs text-slate-300">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span>admin@zaiqa.com</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="p-6 sm:p-8 space-y-8 flex-1">
+        
+        <!-- Summary Stats Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div class="glass-panel p-5 rounded-2xl border border-slate-800">
+            <span class="text-xs text-slate-400 block uppercase font-bold">Total Orders</span>
+            <div id="stat-total" class="text-2xl sm:text-3xl font-extrabold text-white mt-1">0</div>
+          </div>
+          
+          <div class="glass-panel p-5 rounded-2xl border border-amber-500/20 bg-amber-500/5">
+            <span class="text-xs text-amber-400 block uppercase font-bold">Pending Orders</span>
+            <div id="stat-pending" class="text-2xl sm:text-3xl font-extrabold text-amber-400 mt-1">0</div>
+          </div>
+
+          <div class="glass-panel p-5 rounded-2xl border border-blue-500/20 bg-blue-500/5">
+            <span class="text-xs text-blue-400 block uppercase font-bold">Preparing</span>
+            <div id="stat-preparing" class="text-2xl sm:text-3xl font-extrabold text-blue-400 mt-1">0</div>
+          </div>
+
+          <div class="glass-panel p-5 rounded-2xl border border-emerald-500/20 bg-emerald-500/5">
+            <span class="text-xs text-emerald-400 block uppercase font-bold">Delivered</span>
+            <div id="stat-delivered" class="text-2xl sm:text-3xl font-extrabold text-emerald-400 mt-1">0</div>
+          </div>
+        </div>
+
+        <!-- Filter Pills & Search -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
+            <button onclick="window.Admin.setFilter('All')" class="status-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-orange-600 text-white" data-filter="All">All</button>
+            <button onclick="window.Admin.setFilter('Pending')" class="status-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:text-white" data-filter="Pending">Pending</button>
+            <button onclick="window.Admin.setFilter('Preparing')" class="status-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:text-white" data-filter="Preparing">Preparing</button>
+            <button onclick="window.Admin.setFilter('Delivered')" class="status-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:text-white" data-filter="Delivered">Delivered</button>
+          </div>
+
+          <div class="relative w-full sm:w-64">
+            <input 
+              type="text" 
+              id="search-orders" 
+              placeholder="Search customer, phone..." 
+              class="w-full px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 outline-none focus:border-orange-500"
+            />
+          </div>
+        </div>
+
+        <!-- Orders Table / List Container (Part B Requirement 5 & 6) -->
+        <div class="glass-panel rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-slate-300">
+              <thead class="bg-slate-950/80 text-xs uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                <tr>
+                  <th class="px-6 py-4 font-bold">Order ID & Time</th>
+                  <th class="px-6 py-4 font-bold">Customer Details</th>
+                  <th class="px-6 py-4 font-bold">Dishes & Quantity</th>
+                  <th class="px-6 py-4 font-bold">Total (PKR)</th>
+                  <th class="px-6 py-4 font-bold">Status (Click to Change)</th>
+                </tr>
+              </thead>
+              <tbody id="orders-table-body" class="divide-y divide-slate-800/60 font-sans">
+                <!-- Dynamically populated via admin.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Empty orders notice -->
+          <div id="no-orders-notice" class="py-16 text-center hidden space-y-3">
+            <div class="text-4xl text-slate-600">📦</div>
+            <div class="text-white font-bold text-sm">No orders found</div>
+            <div class="text-xs text-slate-400">Orders placed by customers will immediately appear here.</div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/supabaseClient.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

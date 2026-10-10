@@ -435,61 +435,61 @@
   <!-- ========================================================================= -->
   <!-- ORDER SUCCESS / RECEIPT MODAL -->
   <!-- ========================================================================= -->
-  <div id="order-success-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="glass-panel bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
-      
-      <!-- Close button -->
-      <button id="close-order-modal" class="absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">
-        ✕
-      </button>
-
-      <!-- Success Header -->
-      <div class="text-center space-y-2">
-        <div class="w-16 h-16 mx-auto rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl border border-emerald-500/40">
-          ✓
+  <div id="order-success-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden overflow-y-auto p-4 sm:p-6">
+    <div class="min-h-full flex items-center justify-center py-6 w-full">
+      <div class="glass-panel bg-slate-900 border border-slate-700/80 rounded-3xl max-w-md w-full p-6 sm:p-7 space-y-5 shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+        
+        <!-- Header with prominent Cross / Close button -->
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Order Receipt</span>
+          </div>
+          <button 
+            id="close-order-modal" 
+            type="button" 
+            class="w-8 h-8 rounded-full bg-slate-800 hover:bg-red-500 hover:text-white text-slate-300 flex items-center justify-center text-sm font-bold transition-all shadow-md cursor-pointer border border-slate-700"
+            title="Close Receipt"
+          >
+            ✕
+          </button>
         </div>
-        <h3 class="text-2xl font-extrabold text-white font-serif">Order Placed Successfully!</h3>
-        <p class="text-xs text-slate-400">
-          Thank you for choosing Zaiqa Lounge & Grill.
-        </p>
-      </div>
 
-      <!-- Live Sync Status Badges -->
-      <div class="space-y-2">
-        <!-- Gmail Status -->
-        <div id="modal-email-status"></div>
-        <!-- Supabase Status -->
-        <div id="modal-supabase-status"></div>
-      </div>
+        <!-- Success Header -->
+        <div class="text-center space-y-1.5">
+          <div class="w-14 h-14 mx-auto rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl border border-emerald-500/40 shadow-lg shadow-emerald-500/10">
+            ✓
+          </div>
+          <h3 class="text-2xl font-black text-white font-serif">Order Placed Successfully!</h3>
+          <p class="text-xs text-slate-400">
+            Thank you for choosing Zaiqa Lounge & Grill.
+          </p>
+        </div>
 
-      <!-- Printable / Viewable Receipt Details -->
-      <div id="modal-receipt-content">
-        <!-- Injected via JavaScript -->
-      </div>
+        <!-- Printable / Viewable Receipt Details -->
+        <div id="modal-receipt-content">
+          <!-- Injected via JavaScript -->
+        </div>
 
-      <!-- Action Buttons -->
-      <div class="flex flex-col sm:flex-row gap-3 pt-2">
-        <button 
-          id="copy-receipt-btn" 
-          class="flex-1 py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-xs font-bold transition-all flex items-center justify-center gap-2"
-        >
-          📋 Copy Details
-        </button>
-        <a 
-          id="modal-mailto-btn" 
-          target="_blank" 
-          class="flex-1 py-3 px-4 rounded-xl bg-orange-600/20 hover:bg-orange-600/30 border border-orange-500/50 text-orange-300 text-xs font-bold transition-all flex items-center justify-center gap-2 text-center"
-        >
-          📧 Open in Gmail
-        </a>
-        <a 
-          href="admin.html" 
-          class="flex-1 py-3 px-4 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 text-center"
-        >
-          🛡️ View in Admin
-        </a>
-      </div>
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-3 pt-2 border-t border-slate-800">
+          <button 
+            id="copy-receipt-btn" 
+            type="button"
+            class="flex-1 py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+          >
+            📋 Copy Details
+          </button>
+          <button 
+            onclick="window.App.closeOrderModal()" 
+            type="button"
+            class="flex-1 py-3 px-4 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition-all shadow-md shadow-orange-600/30 flex items-center justify-center gap-2 cursor-pointer"
+          >
+            Done
+          </button>
+        </div>
 
+      </div>
     </div>
   </div>
 

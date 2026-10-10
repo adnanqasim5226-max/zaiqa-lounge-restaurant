@@ -61,7 +61,7 @@
       showDashboard();
       showAdminToast("Welcome back, Admin!", "success");
     } else {
-      showAdminToast("Invalid email or password! Use test credentials.", "error");
+      showAdminToast("Invalid email or password!", "error");
     }
   }
 

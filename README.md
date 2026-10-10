@@ -102,3 +102,4 @@ Before Sunday 2:00 PM, prepare these 4 screenshots:
     ├── app.js            # Customer website logic & cart handling
     └── admin.js          # Admin authentication & status updater
 ```
+

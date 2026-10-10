@@ -116,6 +116,60 @@ GRAND TOTAL:  Rs. ${order.totalAmount}
     }
   }
 
+  // Contact Message sender function (For contact.html)
+  async function sendContactMessageToGmail(contactData) {
+    const payload = {
+      _subject: `💬 New Customer Inquiry from ${contactData.name} - ${contactData.subject || "Table Reservation"}`,
+      _template: "table",
+      _captcha: "false",
+      "Sender Name": contactData.name,
+      "Contact Phone": contactData.phone,
+      "Email Address": contactData.email,
+      "Subject / Service": contactData.subject || "General Inquiry",
+      "Message Content": contactData.message,
+      "Received At": new Date().toLocaleString("en-PK", { timeZone: "Asia/Karachi" })
+    };
+
+    console.log("📨 Dispatching contact inquiry to Gmail:", EMAIL_TARGET, payload);
+
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(EMAIL_TARGET)}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+      console.log("📨 FormSubmit contact response:", data);
+
+      if (data.success === "true" || data.success === true) {
+        return {
+          success: true,
+          message: `Your message has been sent directly to ${EMAIL_TARGET}!`
+        };
+      } else if (data.message && data.message.includes("Activation")) {
+        return {
+          success: true,
+          message: `Activation notice sent to ${EMAIL_TARGET}. Check your Gmail inbox to activate!`
+        };
+      } else {
+        return {
+          success: false,
+          message: data.message || "Failed to deliver message."
+        };
+      }
+    } catch (err) {
+      console.warn("⚠️ Error sending contact email:", err);
+      return {
+        success: false,
+        message: "Network error sending email."
+      };
+    }
+  }
+
   // Create a mailto URL as instant direct backup
   function createMailtoUrl(order) {
     const subject = encodeURIComponent(`New Food Order #${order.id || "ORD"} - Rs. ${order.totalAmount}`);
@@ -126,6 +180,7 @@ GRAND TOTAL:  Rs. ${order.totalAmount}
   window.EmailService = {
     targetGmail: EMAIL_TARGET,
     sendOrderToGmail: sendOrderToGmail,
+    sendContactMessageToGmail: sendContactMessageToGmail,
     buildOrderSummaryText: buildOrderSummaryText,
     createMailtoUrl: createMailtoUrl
   };

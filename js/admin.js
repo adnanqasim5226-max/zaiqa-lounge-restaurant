@@ -164,7 +164,11 @@
           <!-- Order ID & Time -->
           <td class="px-6 py-4">
             <div class="font-mono text-xs font-bold text-orange-400">#${shortId}</div>
-            <div class="text-[11px] text-slate-400 mt-1">${timeStr}</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">${timeStr}</div>
+            <a href="track.html?id=${encodeURIComponent(order.id)}" target="_blank" class="inline-flex items-center gap-1 text-[11px] text-amber-400/90 hover:text-amber-300 hover:underline mt-1 font-sans">
+              <span>🔍</span>
+              <span>Track</span>
+            </a>
           </td>
 
           <!-- Customer Info -->

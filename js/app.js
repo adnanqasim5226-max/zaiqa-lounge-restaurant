@@ -442,6 +442,11 @@
       }
     }
 
+    const trackOrderBtn = document.getElementById("modal-track-order-btn");
+    if (trackOrderBtn && order && order.id) {
+      trackOrderBtn.href = `track.html?id=${encodeURIComponent(order.id)}`;
+    }
+
     if (mailtoBtn) {
       mailtoBtn.href = window.EmailService.createMailtoUrl(order);
     }

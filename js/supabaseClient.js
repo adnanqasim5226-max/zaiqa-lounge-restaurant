@@ -187,6 +187,80 @@
         source: supabaseUpdated ? "supabase" : "local",
         status: newStatus
       };
+    },
+
+    // ---------------------------------------------------------
+    // 4. GET ORDER BY ID OR PHONE (Order Tracker)
+    // ---------------------------------------------------------
+    getOrderById: async function (query) {
+      if (!query) return { success: false, message: "Please provide an Order ID or Phone number." };
+      const raw = query.toString().trim();
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(raw);
+
+      // 1. If connected to Supabase:
+      if (this.isConfigured()) {
+        try {
+          if (isUuid) {
+            const { data, error } = await supabaseInstance
+              .from("orders")
+              .select("*")
+              .eq("id", raw)
+              .maybeSingle();
+
+            if (!error && data) {
+              return { success: true, source: "supabase", order: data };
+            }
+          }
+
+          // Try lookup by phone if input contains numbers
+          const cleanPhone = raw.replace(/\D/g, "");
+          if (cleanPhone.length >= 7) {
+            const { data, error } = await supabaseInstance
+              .from("orders")
+              .select("*")
+              .eq("customer_phone", raw)
+              .order("created_at", { ascending: false })
+              .limit(1);
+
+            if (!error && data && data.length > 0) {
+              return { success: true, source: "supabase", order: data[0] };
+            }
+          }
+
+          // Fetch recent orders to support prefix/partial ID search
+          const { data: allOrders, error: listError } = await supabaseInstance
+            .from("orders")
+            .select("*")
+            .order("created_at", { ascending: false })
+            .limit(100);
+
+          if (!listError && allOrders) {
+            const match = allOrders.find(o => 
+              (o.id && o.id.toString().toLowerCase().includes(raw.toLowerCase())) ||
+              (cleanPhone.length >= 7 && o.customer_phone && o.customer_phone.replace(/\D/g, "").includes(cleanPhone))
+            );
+            if (match) {
+              return { success: true, source: "supabase", order: match };
+            }
+          }
+        } catch (err) {
+          console.warn("Supabase lookup error:", err);
+        }
+      }
+
+      // 2. Fallback: Local Storage
+      const localOrders = JSON.parse(localStorage.getItem("local_orders") || "[]");
+      const cleanPhone = raw.replace(/\D/g, "");
+      const match = localOrders.find(o => 
+        (o.id && o.id.toString().toLowerCase().includes(raw.toLowerCase())) ||
+        (cleanPhone.length >= 7 && o.customer_phone && o.customer_phone.replace(/\D/g, "").includes(cleanPhone))
+      );
+
+      if (match) {
+        return { success: true, source: "local", order: match };
+      }
+
+      return { success: false, message: "No order found matching: " + raw };
     }
   };
 

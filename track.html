@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Track Your Order | Zaiqa Lounge & Grill</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Supabase JS Client v2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen flex flex-col antialiased selection:bg-orange-600 selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- TOP ANNOUNCEMENT BANNER -->
+  <!-- ========================================================================= -->
+  <div class="bg-gradient-to-r from-orange-700 via-amber-600 to-orange-700 text-white text-xs py-2 px-4 text-center font-medium shadow-sm flex items-center justify-center gap-3">
+    <span>🔍 Live Order Tracking: Real-time Kitchen & Delivery Status Powered by Supabase</span>
+    <span class="hidden md:inline text-amber-200">|</span>
+    <span class="hidden md:inline text-amber-100">Helpline: 03072820877</span>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR -->
+  <!-- ========================================================================= -->
+  <header class="sticky top-0 z-40 glass-nav transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo & Name -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-600/30 group-hover:scale-105 transition-transform">
+          <span class="text-2xl">🍽️</span>
+        </div>
+        <div>
+          <span class="text-2xl font-extrabold tracking-tight text-white font-serif block group-hover:text-orange-400 transition-colors">
+            Zaiqa Lounge
+          </span>
+          <span class="text-[11px] text-amber-400 font-semibold uppercase tracking-widest block -mt-1">
+            Fine Dining & Grill
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-300">
+        <a href="index.html" class="hover:text-orange-400 transition-colors">Home</a>
+        <a href="menu.html" class="hover:text-orange-400 transition-colors">Menu</a>
+        <a href="order.html" class="hover:text-orange-400 transition-colors">Order Online</a>
+        <a href="track.html" class="text-orange-400 font-bold border-b-2 border-orange-500 pb-1">Track Order 🔍</a>
+        <a href="about.html" class="hover:text-orange-400 transition-colors">About Us</a>
+        <a href="contact.html" class="hover:text-orange-400 transition-colors">Contact</a>
+        <a href="admin.html" class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 hover:border-orange-500 hover:text-white transition-all flex items-center gap-1.5 text-xs text-amber-300 font-semibold shadow-sm">
+          <span>🛡️</span>
+          <span>Admin</span>
+        </a>
+        <a href="social.html" class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 hover:border-pink-500 hover:text-white transition-all flex items-center gap-1.5 text-xs text-pink-300 font-semibold shadow-sm">
+          <span>📱</span>
+          <span>Social</span>
+        </a>
+      </nav>
+
+      <!-- Right Header Actions -->
+      <div class="flex items-center gap-4">
+        <!-- Cart Trigger Button -->
+        <a 
+          href="order.html" 
+          class="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white font-bold text-sm shadow-lg shadow-orange-600/30 hover:scale-105 active:scale-95 transition-all"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+          </svg>
+          <span class="hidden sm:inline">Cart</span>
+          <span class="cart-count-badge hidden px-2 py-0.5 text-xs font-extrabold rounded-full bg-white text-orange-600 shadow-md">
+            0
+          </span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN CONTENT: ORDER TRACKER -->
+  <!-- ========================================================================= -->
+  <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full space-y-8">
+    
+    <!-- Hero Header -->
+    <div class="text-center space-y-3">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-600/10 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-wider">
+        <span>📍</span>
+        <span>Real-Time Customer Order Tracking</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white font-serif">
+        Track Your Food Order
+      </h1>
+      <p class="text-slate-400 text-sm max-w-2xl mx-auto">
+        Enter your unique <strong class="text-white">Order ID</strong> or registered <strong class="text-white">Phone Number</strong> to check live kitchen preparation and delivery status.
+      </p>
+    </div>
+
+    <!-- Tracker Search Card -->
+    <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-2xl relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-64 h-64 bg-orange-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <form id="track-form" class="space-y-4">
+        <div>
+          <label for="track-query" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+            Enter Order ID or Customer Phone <span class="text-orange-400">*</span>
+          </label>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <div class="relative flex-grow">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-500 text-base">
+                🔍
+              </span>
+              <input 
+                type="text" 
+                id="track-query" 
+                required 
+                placeholder="e.g. paste Order ID or 03072820877"
+                class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 text-sm font-mono outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all"
+              />
+            </div>
+            <button 
+              type="submit" 
+              id="track-btn"
+              class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-bold text-sm shadow-lg shadow-orange-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap"
+            >
+              <span>🚀</span>
+              <span>Track Order</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Suggestions Pill Container -->
+        <div id="recent-orders-bar" class="flex flex-wrap items-center gap-2 pt-1 text-xs">
+          <span class="text-slate-400 font-medium">Recent on this device:</span>
+          <div id="recent-order-pills" class="flex flex-wrap gap-2">
+            <!-- Injected via JavaScript -->
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- TRACKER RESULTS CONTAINER -->
+    <div id="tracker-result-area" class="space-y-6">
+      
+      <!-- Initial Placeholder State -->
+      <div id="tracker-idle-state" class="glass-panel p-10 rounded-3xl border border-slate-800 text-center space-y-4">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-3xl">
+          🛵
+        </div>
+        <h3 class="text-xl font-bold text-white font-serif">Awaiting Your Order ID</h3>
+        <p class="text-slate-400 text-xs max-w-md mx-auto leading-relaxed">
+          Please enter your Order ID in the box above or choose from your recent orders to see the current preparation and delivery timeline.
+        </p>
+      </div>
+
+      <!-- Loading State -->
+      <div id="tracker-loading-state" class="hidden glass-panel p-12 rounded-3xl border border-slate-800 text-center space-y-4">
+        <div class="w-12 h-12 mx-auto border-4 border-orange-500/30 border-t-orange-500 rounded-full animate-spin"></div>
+        <p class="text-sm font-semibold text-slate-300">Searching order in Supabase live database...</p>
+      </div>
+
+      <!-- Not Found State -->
+      <div id="tracker-not-found-state" class="hidden glass-panel p-10 rounded-3xl border border-red-500/30 bg-red-950/10 text-center space-y-4">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-red-500/20 text-red-400 border border-red-500/30 flex items-center justify-center text-3xl">
+          ❌
+        </div>
+        <h3 class="text-xl font-bold text-white font-serif">Order Not Found</h3>
+        <p id="tracker-error-msg" class="text-slate-300 text-xs max-w-md mx-auto leading-relaxed">
+          We could not find any active order matching this ID or phone number.
+        </p>
+        <div class="pt-2">
+          <a href="tel:03072820877" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-orange-400 text-xs font-bold border border-slate-700 transition-all">
+            <span>📞 Call Helpline: 03072820877</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Live Order Found Card (Rendered via JS) -->
+      <div id="tracker-order-card" class="hidden space-y-6 animate-in fade-in duration-300">
+        
+        <!-- Status & Live Stepper Banner -->
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-8">
+          
+          <!-- Order ID Header & Refresh Action -->
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
+            <div>
+              <div class="flex items-center gap-2.5">
+                <span class="text-xs text-slate-400 font-mono">ORDER ID:</span>
+                <span id="order-id-display" class="font-mono text-sm sm:text-base font-extrabold text-orange-400"></span>
+                <button 
+                  id="copy-order-id-btn"
+                  type="button" 
+                  class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-mono border border-slate-700 cursor-pointer"
+                  title="Copy Order ID"
+                >
+                  📋 Copy
+                </button>
+              </div>
+              <div id="order-time-display" class="text-xs text-slate-400 mt-1"></div>
+            </div>
+
+            <!-- Current Status Badge & Refresh -->
+            <div class="flex items-center gap-3">
+              <div id="order-status-badge" class="px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 shadow-lg">
+                <!-- Injected via JS -->
+              </div>
+              <button 
+                id="refresh-tracker-btn"
+                type="button" 
+                class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-all cursor-pointer"
+                title="Refresh Live Status from Database"
+              >
+                🔄
+              </button>
+            </div>
+          </div>
+
+          <!-- Visual Progress Stepper (4 Steps) -->
+          <div class="space-y-4">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+              <span>⏱️</span>
+              <span>Live Preparation & Delivery Progress</span>
+            </h4>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="stepper-container">
+              
+              <!-- Step 1: Pending (Order Placed) -->
+              <div id="step-pending" class="p-4 rounded-2xl border transition-all flex items-start gap-3.5">
+                <div class="step-icon w-10 h-10 rounded-xl flex items-center justify-center font-bold text-base flex-shrink-0">
+                  📝
+                </div>
+                <div class="space-y-0.5">
+                  <div class="text-xs font-bold step-title">1. Order Placed</div>
+                  <div class="text-[11px] text-slate-400 step-desc">Received & queued into kitchen</div>
+                </div>
+              </div>
+
+              <!-- Step 2: Preparing (In Kitchen) -->
+              <div id="step-preparing" class="p-4 rounded-2xl border transition-all flex items-start gap-3.5">
+                <div class="step-icon w-10 h-10 rounded-xl flex items-center justify-center font-bold text-base flex-shrink-0">
+                  👨‍🍳
+                </div>
+                <div class="space-y-0.5">
+                  <div class="text-xs font-bold step-title">2. In Preparation</div>
+                  <div class="text-[11px] text-slate-400 step-desc">Chefs cooking & packing food</div>
+                </div>
+              </div>
+
+              <!-- Step 3: Delivered -->
+              <div id="step-delivered" class="p-4 rounded-2xl border transition-all flex items-start gap-3.5">
+                <div class="step-icon w-10 h-10 rounded-xl flex items-center justify-center font-bold text-base flex-shrink-0">
+                  🎉
+                </div>
+                <div class="space-y-0.5">
+                  <div class="text-xs font-bold step-title">3. Delivered</div>
+                  <div class="text-[11px] text-slate-400 step-desc">Delivered to your address</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Helpful Status Hint -->
+          <div id="status-hint-box" class="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-xs flex items-center gap-3">
+            <span class="text-2xl" id="status-hint-emoji">ℹ️</span>
+            <div>
+              <div class="font-bold text-white" id="status-hint-title">Status update</div>
+              <div class="text-slate-400 text-[11px]" id="status-hint-text">Track your progress live.</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Order Breakdown Grid (Customer Details + Dishes) -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+          
+          <!-- Left: Customer & Delivery Info (5 Cols) -->
+          <div class="md:col-span-5 glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2 border-b border-slate-800 pb-3">
+              <span>👤</span>
+              <span>Delivery Information</span>
+            </h4>
+            
+            <div class="space-y-3 text-xs">
+              <div>
+                <span class="text-slate-500 block text-[11px]">Customer Name:</span>
+                <span id="order-customer-name" class="text-white font-bold text-sm"></span>
+              </div>
+
+              <div>
+                <span class="text-slate-500 block text-[11px]">Phone Number:</span>
+                <a id="order-customer-phone" href="" class="text-emerald-400 font-mono font-bold hover:underline"></a>
+              </div>
+
+              <div>
+                <span class="text-slate-500 block text-[11px]">Delivery Address:</span>
+                <span id="order-customer-address" class="text-slate-200 block leading-relaxed mt-0.5"></span>
+              </div>
+
+              <div id="order-instructions-container">
+                <span class="text-slate-500 block text-[11px]">Special Instructions:</span>
+                <span id="order-instructions" class="text-amber-300/90 italic block mt-0.5"></span>
+              </div>
+            </div>
+
+            <!-- Quick Contact Rider / Support -->
+            <div class="pt-2 border-t border-slate-800 flex flex-col gap-2">
+              <a 
+                id="whatsapp-tracker-link"
+                href="https://wa.me/923072820877" 
+                target="_blank"
+                class="w-full py-2.5 px-3 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold text-center flex items-center justify-center gap-2 transition-all"
+              >
+                <span>💬</span>
+                <span>WhatsApp Helpline: 03072820877</span>
+              </a>
+
+              <a 
+                href="tel:03072820877" 
+                class="w-full py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-bold text-center flex items-center justify-center gap-2 transition-all"
+              >
+                <span>📞</span>
+                <span>Call Restaurant Support</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Ordered Dishes & Totals (7 Cols) -->
+          <div class="md:col-span-7 glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2 border-b border-slate-800 pb-3">
+              <span>🍽️</span>
+              <span>Ordered Dishes</span>
+            </h4>
+
+            <!-- Items List -->
+            <div id="order-items-list" class="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+              <!-- Injected via JS -->
+            </div>
+
+            <!-- Price Breakdown -->
+            <div class="border-t border-slate-800 pt-3 space-y-1.5 text-xs">
+              <div class="flex justify-between text-slate-400">
+                <span>Subtotal:</span>
+                <span id="order-subtotal" class="font-mono"></span>
+              </div>
+              <div class="flex justify-between text-slate-400">
+                <span>Delivery Fee:</span>
+                <span id="order-delivery-fee" class="font-mono"></span>
+              </div>
+              <div class="flex justify-between text-base font-black text-white pt-2 border-t border-slate-800/80">
+                <span class="text-orange-400">Total Bill:</span>
+                <span id="order-total" class="text-orange-400 font-mono"></span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- COMPREHENSIVE DEVELOPER FOOTER -->
+  <!-- ========================================================================= -->
+  <footer class="bg-slate-950 border-t border-slate-800/80 pt-16 pb-12 mt-auto text-slate-400 text-sm relative overflow-hidden">
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[250px] bg-orange-600/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
+      
+      <!-- DEVELOPER SHOWCASE CARD -->
+      <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-900 border border-orange-500/30 shadow-2xl relative overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          
+          <div class="lg:col-span-7 flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
+            <div class="relative flex-shrink-0">
+              <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-orange-600 via-amber-500 to-orange-500 flex items-center justify-center text-white text-2xl font-black shadow-xl shadow-orange-600/30 ring-4 ring-orange-500/20">
+                AQ
+              </div>
+              <span class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-slate-900 flex items-center justify-center text-[11px] text-white">
+                ✓
+              </span>
+            </div>
+
+            <div class="space-y-1.5">
+              <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                <h3 class="text-2xl font-extrabold text-white font-serif">Adnan Qasim</h3>
+                <span class="px-2.5 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/40 text-xs font-bold">
+                  Lead Developer
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-medium">
+                  Full Stack Web & AI
+                </span>
+              </div>
+              <p class="text-xs text-amber-300/90 font-medium flex items-center justify-center sm:justify-start gap-1.5">
+                <span>📍</span>
+                <span>Gulistan-e-johar, Phelwan Goth, Block-9, Karachi</span>
+              </p>
+              <p class="text-xs text-slate-300 max-w-xl leading-relaxed">
+                Full-stack developer specializing in modern web applications, cloud databases with Supabase, automated workflows, and fast responsive user interfaces.
+              </p>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 flex flex-col sm:flex-row items-center justify-center lg:justify-end gap-3 pt-4 lg:pt-0 border-t lg:border-t-0 border-slate-800">
+            <a 
+              href="tel:03072820877" 
+              class="w-full sm:w-auto px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-700 transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95 shadow-lg shadow-black/40"
+            >
+              <span>📞</span>
+              <span>Call: 03072820877</span>
+            </a>
+            <a 
+              href="mailto:adnanqasim5226@gmail.com" 
+              class="w-full sm:w-auto px-5 py-3 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-bold text-xs transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95 shadow-lg shadow-orange-600/30"
+            >
+              <span>📧</span>
+              <span>Email Adnan</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 4 COLUMN FOOTER GRID -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        <!-- Column 1: Restaurant Info -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-orange-600 flex items-center justify-center text-xl shadow-md">
+              🍽️
+            </div>
+            <div>
+              <span class="font-extrabold text-white text-lg font-serif">Zaiqa Lounge</span>
+              <span class="text-[10px] text-amber-400 font-bold uppercase tracking-widest block">Karachi, Pakistan</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Authentic culinary excellence blending slow-cooked dum traditions with charcoal-grilled perfection.
+          </p>
+          <div class="space-y-1.5 text-xs text-slate-400">
+            <div class="flex items-center gap-2">
+              <span class="text-orange-400 flex-shrink-0">📍</span>
+              <span>Gulistan-e-johar, Block-9, Karachi</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-orange-400 flex-shrink-0">⏰</span>
+              <span>Mon - Sun: 11:00 AM - 01:00 AM</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="space-y-3">
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+            <span>Pages Navigation</span>
+          </h4>
+          <ul class="text-xs space-y-2">
+            <li><a href="index.html" class="hover:text-orange-400 transition-colors flex items-center gap-1.5"><span>→</span> <span>Home Page</span></a></li>
+            <li><a href="menu.html" class="hover:text-orange-400 transition-colors flex items-center gap-1.5"><span>→</span> <span>Our Menu (8 Dishes)</span></a></li>
+            <li><a href="order.html" class="hover:text-orange-400 transition-colors flex items-center gap-1.5"><span>→</span> <span>Order & Checkout</span></a></li>
+            <li><a href="track.html" class="text-orange-400 font-bold transition-colors flex items-center gap-1.5"><span>→</span> <span>Track Your Order 🔍</span></a></li>
+            <li><a href="about.html" class="hover:text-orange-400 transition-colors flex items-center gap-1.5"><span>→</span> <span>About Us</span></a></li>
+            <li><a href="contact.html" class="hover:text-orange-400 transition-colors flex items-center gap-1.5"><span>→</span> <span>Contact Us</span></a></li>
+            <li>
+              <a href="admin.html" class="text-amber-300 hover:text-white font-semibold transition-colors flex items-center gap-1.5">
+                <span>🛡️</span> <span>Admin Dashboard (Part B)</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Developer Details -->
+        <div class="space-y-3">
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+            <span>Developer Details</span>
+          </h4>
+          <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2.5 text-xs">
+            <div class="flex justify-between border-b border-slate-800/80 pb-1.5">
+              <span class="text-slate-400">Name:</span>
+              <span class="text-white font-bold">Adnan Qasim</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-800/80 pb-1.5">
+              <span class="text-slate-400">Phone:</span>
+              <a href="tel:03072820877" class="text-emerald-400 font-bold hover:underline font-mono">03072820877</a>
+            </div>
+            <div class="flex justify-between border-b border-slate-800/80 pb-1.5">
+              <span class="text-slate-400">Email:</span>
+              <a href="mailto:adnanqasim5226@gmail.com" class="text-amber-300 hover:underline font-mono text-[11px]">adnanqasim5226@gmail.com</a>
+            </div>
+            <div class="border-b border-slate-800/80 pb-1.5">
+              <span class="text-slate-400 block text-[11px] mb-0.5">Address:</span>
+              <span class="text-slate-200 text-[11px] leading-tight block">Gulistan-e-johar, Phelwan Goth, Block-9, Karachi</span>
+            </div>
+            <div class="flex justify-between pt-0.5">
+              <span class="text-slate-400">Role:</span>
+              <span class="text-slate-200">MERN / Full Stack AI</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 4: Operating Hours & Fast Delivery Coverage -->
+        <div class="space-y-3">
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span>Delivery & Timings</span>
+          </h4>
+          <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3 text-xs">
+            <div>
+              <span class="text-slate-400 text-[11px] block uppercase font-bold">Fast Delivery Coverage:</span>
+              <p class="text-slate-300 text-xs mt-1 leading-relaxed">
+                Gulistan-e-Johar, Phelwan Goth, Block-9, Gulshan-e-Iqbal, Airport, Malir Cantt & All Karachi.
+              </p>
+            </div>
+            <div class="border-t border-slate-800/80 pt-2 flex items-center justify-between">
+              <span class="text-slate-400">Average ETA:</span>
+              <span class="text-emerald-400 font-bold">35 - 45 Mins</span>
+            </div>
+            <div class="border-t border-slate-800/80 pt-2 flex items-center justify-between">
+              <span class="text-slate-400">Direct Helpline:</span>
+              <a href="tel:03072820877" class="text-orange-400 font-bold hover:underline font-mono">03072820877</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM STRIP -->
+      <div class="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        <p>
+          © 2026 <strong class="text-slate-300">Zaiqa Lounge & Grill</strong>. Built & Designed with ❤️ by <strong class="text-orange-400">Adnan Qasim</strong>.
+        </p>
+        
+        <div class="flex items-center gap-4">
+          <a href="https://wa.me/923072820877" target="_blank" class="text-emerald-400 hover:text-emerald-300 font-semibold transition-colors flex items-center gap-1" title="WhatsApp">
+            <span>💬 WhatsApp: 03072820877</span>
+          </a>
+          <span>•</span>
+          <a href="#top" class="text-orange-400 hover:text-orange-300 font-bold transition-colors">
+            Back to Top ↑
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/supabaseClient.js"></script>
+  <script src="js/emailService.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/tracker.js"></script>
+</body>
+</html>

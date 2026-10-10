@@ -8,8 +8,8 @@ const CONFIG = {
   restaurant: {
     name: "Zaiqa Lounge & Grill",
     tagline: "Authentic Taste, Royal Experience",
-    phone: "+92 300 1234567",
-    address: "Plot 42, Block 5, Clifton, Karachi, Pakistan",
+    phone: "03072820877",
+    address: "Gulistan-e-johar, Phelwan Goth, Block-9, Karachi",
     openingHours: "Mon - Sun: 11:00 AM - 01:00 AM",
     deliveryFee: 150, // in PKR
     freeDeliveryThreshold: 2000, // in PKR

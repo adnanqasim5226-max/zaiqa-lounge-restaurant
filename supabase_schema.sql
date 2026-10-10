@@ -49,8 +49,8 @@ WITH CHECK (true);
 INSERT INTO public.orders (customer_name, customer_phone, customer_address, dishes, total_price, status)
 VALUES (
     'Adnan Qasim',
-    '0300-1234567',
-    'House 123, Street 4, ASF Campus, Karachi',
+    '03072820877',
+    'House 12, Gulistan-e-johar, Phelwan Goth, Block-9, Karachi',
     '[{"name": "Royal Dum Biryani", "quantity": 2, "price": 650}, {"name": "Fresh Mint Lemonade Cooler", "quantity": 2, "price": 320}]'::jsonb,
     1940,
     'Pending'

@@ -237,27 +237,15 @@
             ></textarea>
           </div>
 
-          <!-- Live Status Feedback Box -->
-          <div id="contact-status-box" class="hidden"></div>
-
-          <div class="flex flex-col sm:flex-row items-center gap-3 pt-2">
+          <div class="pt-2">
             <button 
               type="submit" 
               id="contact-submit-btn"
               class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-bold text-sm shadow-lg shadow-orange-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center gap-2"
             >
               <span>📩</span>
-              <span>Send Message to Gmail</span>
+              <span>Send Message</span>
             </button>
-
-            <a 
-              id="contact-mailto-fallback" 
-              href="mailto:adnanqasim5226@gmail.com" 
-              class="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs border border-slate-700 transition-all text-center flex items-center justify-center gap-1.5"
-            >
-              <span>📧</span>
-              <span>Open in Gmail App</span>
-            </a>
           </div>
         </form>
       </div>
@@ -507,8 +495,6 @@
         contactForm.addEventListener("submit", async function(e) {
           e.preventDefault();
           const submitBtn = document.getElementById("contact-submit-btn");
-          const statusBox = document.getElementById("contact-status-box");
-          const mailtoBtn = document.getElementById("contact-mailto-fallback");
 
           const name = document.getElementById("contact-name").value.trim();
           const phone = document.getElementById("contact-phone").value.trim();
@@ -525,12 +511,6 @@
             return;
           }
 
-          // Update mailto fallback link with user text
-          if (mailtoBtn) {
-            const body = encodeURIComponent(`Name: ${name}\nPhone: ${phone}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${message}`);
-            mailtoBtn.href = `mailto:adnanqasim5226@gmail.com?subject=${encodeURIComponent("Inquiry: " + subject + " - " + name)}&body=${body}`;
-          }
-
           submitBtn.disabled = true;
           const originalText = submitBtn.innerHTML;
           submitBtn.innerHTML = `
@@ -538,46 +518,23 @@
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            Sending to adnanqasim5226@gmail.com...
+            Sending...
           `;
 
           try {
-            console.log("Submitting contact message to Gmail...");
-            const res = await window.EmailService.sendContactMessageToGmail({
+            console.log("Submitting contact message...");
+            await window.EmailService.sendContactMessageToGmail({
               name, phone, email, subject, message
             });
 
-            if (statusBox) {
-              statusBox.className = "p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2";
-              statusBox.innerHTML = `
-                <span class="text-base">✅</span> 
-                <div>
-                  <strong>Delivered to Gmail:</strong> adnanqasim5226@gmail.com
-                  <div class="text-[11px] text-emerald-400/80 mt-0.5">${res.message}</div>
-                </div>
-              `;
-              statusBox.classList.remove("hidden");
-            }
-
             if (window.App && window.App.showToast) {
-              window.App.showToast("Message sent to Gmail successfully!", "success");
+              window.App.showToast("Message sent successfully!", "success");
             }
             contactForm.reset();
           } catch (err) {
             console.error("Contact send error:", err);
-            if (statusBox) {
-              statusBox.className = "p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2";
-              statusBox.innerHTML = `
-                <span class="text-base">⚠️</span> 
-                <div>
-                  <strong>Notice:</strong> ${err.message || "Failed to deliver automatically."}
-                  <div class="text-[11px] text-amber-400/80 mt-0.5">Please use the 'Open in Gmail App' button to send directly.</div>
-                </div>
-              `;
-              statusBox.classList.remove("hidden");
-            }
             if (window.App && window.App.showToast) {
-              window.App.showToast("Network notice. Use Gmail button.", "info");
+              window.App.showToast(err.message || "Failed to send message. Please try again.", "error");
             }
           } finally {
             submitBtn.disabled = false;

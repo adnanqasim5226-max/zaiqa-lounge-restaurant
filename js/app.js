@@ -399,7 +399,17 @@
     const mailtoBtn = document.getElementById("modal-mailto-btn");
 
     if (emailStatusBadge) {
-      if (emailResult.success) {
+      if (emailResult.method === "activation-pending") {
+        emailStatusBadge.className = "p-3 rounded-xl bg-amber-500/10 border border-amber-500/40 text-amber-300 text-xs flex items-center gap-3";
+        emailStatusBadge.innerHTML = `
+          <span class="text-xl flex-shrink-0">📬</span>
+          <div>
+            <strong class="text-amber-200">Gmail One-Time Activation Required:</strong>
+            <div class="text-[11px] text-amber-300/90 mt-0.5">${emailResult.message}</div>
+            <a href="https://mail.google.com" target="_blank" class="inline-block mt-1 text-[11px] text-amber-400 font-bold underline hover:text-white">Open Gmail Inbox to Activate →</a>
+          </div>
+        `;
+      } else if (emailResult.success) {
         emailStatusBadge.className = "p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2";
         emailStatusBadge.innerHTML = `
           <span class="text-base">✅</span>

@@ -98,10 +98,14 @@
           }
 
           console.log("✅ Order saved in Supabase successfully:", data);
+          if (data && data[0]) {
+            localOrders[0] = { ...data[0] };
+            localStorage.setItem("local_orders", JSON.stringify(localOrders));
+          }
           return {
             success: true,
             source: "supabase",
-            order: data[0] || localRecord
+            order: (data && data[0]) || localRecord
           };
         } catch (err) {
           console.error("⚠️ Exception inserting into Supabase:", err);
@@ -251,12 +255,37 @@
       // 2. Fallback: Local Storage
       const localOrders = JSON.parse(localStorage.getItem("local_orders") || "[]");
       const cleanPhone = raw.replace(/\D/g, "");
-      const match = localOrders.find(o => 
+      const matchIndex = localOrders.findIndex(o => 
         (o.id && o.id.toString().toLowerCase().includes(raw.toLowerCase())) ||
         (cleanPhone.length >= 7 && o.customer_phone && o.customer_phone.replace(/\D/g, "").includes(cleanPhone))
       );
 
-      if (match) {
+      if (matchIndex !== -1) {
+        const match = localOrders[matchIndex];
+        // If Supabase is available, sync with live Supabase cloud status
+        if (this.isConfigured()) {
+          try {
+            const targetPhone = match.customer_phone || "";
+            if (targetPhone) {
+              const { data: cloudOrders } = await supabaseInstance
+                .from("orders")
+                .select("*")
+                .eq("customer_phone", targetPhone)
+                .order("created_at", { ascending: false })
+                .limit(1);
+
+              if (cloudOrders && cloudOrders.length > 0) {
+                const cloudOrder = cloudOrders[0];
+                console.log("🔄 Synced local order with Supabase live status:", cloudOrder.status);
+                localOrders[matchIndex] = { ...cloudOrder };
+                localStorage.setItem("local_orders", JSON.stringify(localOrders));
+                return { success: true, source: "supabase", order: cloudOrder };
+              }
+            }
+          } catch (syncErr) {
+            console.warn("Could not sync local order with Supabase:", syncErr);
+          }
+        }
         return { success: true, source: "local", order: match };
       }
 

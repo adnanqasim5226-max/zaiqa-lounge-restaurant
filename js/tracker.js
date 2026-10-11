@@ -144,6 +144,7 @@
 
       // Render Order Details
       renderOrderUI(order);
+      renderRecentOrderPills();
 
       // Auto-refresh every 20 seconds if not yet Delivered
       clearInterval(autoRefreshTimer);

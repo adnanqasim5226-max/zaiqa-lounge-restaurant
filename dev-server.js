@@ -76,13 +76,20 @@ const server = http.createServer((req, res) => {
   }
 
   // Safe file path resolution
-  const safePath = path.normalize(path.join(__dirname, parsedUrl));
+  let safePath = path.normalize(path.join(__dirname, parsedUrl));
 
   // Security check: ensure path is within project root
   if (!safePath.startsWith(__dirname)) {
     res.writeHead(403, { "Content-Type": "text/plain" });
     res.end("403 Forbidden");
     return;
+  }
+
+  // Support clean URLs: if path has no extension and path.html exists, use it
+  if (!path.extname(safePath) && fs.existsSync(safePath + ".html")) {
+    safePath = safePath + ".html";
+  } else if (fs.existsSync(path.join(safePath, "index.html"))) {
+    safePath = path.join(safePath, "index.html");
   }
 
   fs.stat(safePath, (err, stats) => {

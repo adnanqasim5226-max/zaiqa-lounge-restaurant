@@ -32,6 +32,24 @@ const CONFIG = {
     password: "admin123"
   },
 
+  // Buffer API Social Media Automation (Part B Requirement 7)
+  buffer: {
+    apiKey: "iZiikjxlhIzEzzUr3wvSy_FYaBBz3bvkuZzcLFOnCtr",
+    organizationId: "6acb1196bbd36cccd5c8f28e",
+    channels: {
+      instagram: {
+        id: "6acb15d4778b240e2fd2d137",
+        name: "adnan31272026",
+        service: "instagram"
+      },
+      tiktok: {
+        id: "6acb17e7778b240e2fd2dfe2",
+        name: "adnan__5226",
+        service: "tiktok"
+      }
+    }
+  },
+
   // Menu Items (At least 6 required by Part A; we provide 8 mouth-watering dishes)
   dishes: [
     {

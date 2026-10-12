@@ -33,6 +33,8 @@
     elements.orderSuccessModal = document.getElementById("order-success-modal");
     elements.supabaseStatusBadge = document.getElementById("supabase-status-badge");
     elements.supabaseConfigModal = document.getElementById("supabase-config-modal");
+    elements.weeklyMenuGrid = document.getElementById("weekly-menu-grid");
+    elements.currentDayName = document.getElementById("current-day-name");
   }
 
   // -------------------------------------------------------------
@@ -149,6 +151,110 @@
         ${cat}
       </button>
     `).join("");
+  }
+
+  // -------------------------------------------------------------
+  // RENDER 7-DAY WEEKLY MENU (ایک ہفتے کا مخصوص مینو)
+  // -------------------------------------------------------------
+  function renderWeeklyMenu() {
+    if (!elements.weeklyMenuGrid) return;
+
+    const weekly = (window.CONFIG && window.CONFIG.weeklyMenu) || [];
+    if (!weekly.length) return;
+
+    const todayIndex = new Date().getDay(); // 0 is Sunday, 1 is Monday...
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const todayName = dayNames[todayIndex];
+
+    if (elements.currentDayName) {
+      elements.currentDayName.textContent = todayName;
+    }
+
+    elements.weeklyMenuGrid.innerHTML = weekly.map(item => {
+      const isToday = item.dayIndex === todayIndex;
+      const cartItem = state.cart.find(i => i.id === item.dishId);
+      const inCart = cartItem ? cartItem.quantity : 0;
+
+      return `
+        <div class="glass-panel rounded-2xl p-5 flex flex-col justify-between border transition-all duration-300 relative group ${
+          isToday 
+            ? 'border-orange-500/80 bg-orange-950/20 shadow-xl shadow-orange-600/15 ring-2 ring-orange-500/30' 
+            : 'border-slate-800 hover:border-slate-700'
+        }">
+          
+          ${isToday ? `
+            <div class="absolute -top-3 right-4 px-3 py-0.5 rounded-full bg-gradient-to-r from-orange-600 to-amber-500 text-white text-[10px] font-extrabold uppercase tracking-wider shadow-lg flex items-center gap-1.5 animate-pulse">
+              <span>🌟</span>
+              <span>Today's Special</span>
+            </div>
+          ` : ''}
+
+          <div>
+            <!-- Day Strip -->
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-lg text-xs font-bold ${
+                  isToday ? 'bg-orange-600 text-white shadow-md' : 'bg-slate-800 text-slate-300'
+                }">
+                  ${item.dayName}
+                </span>
+                <span class="text-xs text-amber-400 font-semibold font-serif">
+                  (${item.dayUrdu})
+                </span>
+              </div>
+              <span class="text-[11px] text-slate-400 font-mono">
+                ${item.badge}
+              </span>
+            </div>
+
+            <!-- Dish Image -->
+            <div class="relative h-40 rounded-xl overflow-hidden mb-3.5 group-hover:scale-[1.02] transition-transform">
+              <img 
+                src="${item.image}" 
+                alt="${item.dishName}" 
+                loading="lazy" 
+                class="w-full h-full object-cover"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+              <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between text-xs">
+                <span class="font-bold text-white drop-shadow-md truncate mr-2">${item.dishName}</span>
+                <span class="font-extrabold text-amber-300 bg-slate-950/70 px-2 py-0.5 rounded-md whitespace-nowrap">Rs. ${item.price.toLocaleString()}</span>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed line-clamp-2 mb-2 font-serif">
+              ${item.tagline}
+            </p>
+            <div class="p-2 rounded-lg bg-slate-900/80 border border-slate-800 text-[11px] text-emerald-400 font-medium mb-4 flex items-center gap-1.5">
+              <span>🎁</span>
+              <span>${item.deal}</span>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between mt-auto">
+            <span class="text-xs text-slate-400">Featured Day Special</span>
+            ${inCart > 0 ? `
+              <span class="text-xs font-bold text-emerald-400 flex items-center gap-1">
+                <span>✓ Added (${inCart})</span>
+              </span>
+            ` : `
+              <button 
+                onclick="window.App.addToCart('${item.dishId}')" 
+                class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow-md ${
+                  isToday 
+                    ? 'bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white shadow-orange-600/30' 
+                    : 'bg-slate-800 hover:bg-orange-600 text-slate-200 hover:text-white'
+                }"
+              >
+                <span>Order ${item.dayName}</span>
+                <span>+</span>
+              </button>
+            `}
+          </div>
+
+        </div>
+      `;
+    }).join("");
   }
 
   // -------------------------------------------------------------
@@ -286,6 +392,9 @@
         </div>
       `).join("");
     }
+
+    // Refresh weekly menu items state if on menu page
+    renderWeeklyMenu();
   }
 
   // -------------------------------------------------------------
@@ -626,6 +735,7 @@
     initElements();
     renderCategories();
     renderMenu();
+    renderWeeklyMenu();
     updateCartUI();
     checkSupabaseStatus();
 
